@@ -1,0 +1,31 @@
+services:
+  # More info at https://github.com/oracle/opengrok/docker/
+  opengrok:
+    container_name: opengrok
+    image: opengrok/docker:latest
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    environment:
+      SYNC_PERIOD_MINUTES: 0
+      OPENGROK_VERBOSE: true
+      NOMIRROR: "yes"
+      REST_PORT: 8000
+      REST_TOKEN: ${OPENGROK_REST_TOKEN}
+    volumes:
+      - ./opengrok/data:/opengrok/data
+      - ./opengrok/src:/opengrok/src
+      - ./opengrok/etc:/opengrok/etc
+  mimir-syncer:
+    build: ./syncer
+    container_name: mimir-syncer
+    restart: unless-stopped
+    environment:
+      - GIT_PROVIDER=${GIT_PROVIDER} # github or bitbucket
+      - API_TOKEN=${API_TOKEN}
+      - ORG_NAME=${ORG_NAME}
+      - SYNC_INTERVAL=3600
+      - REPOS_DIR=/opengrok/src
+      - SYNC_BRANCH_PRIORITY=${SYNC_BRANCH_PRIORITY}
+    volumes:
+      - ./opengrok/src:/opengrok/src
