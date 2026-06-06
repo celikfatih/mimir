@@ -2,7 +2,8 @@ services:
   # More info at https://github.com/oracle/opengrok/docker/
   opengrok:
     container_name: opengrok
-    image: opengrok/docker:latest
+    image: pkemb/opengrok:1.14.3
+    entrypoint: [ "/bin/sh", "/opengrok/entrypoint.sh" ]
     ports:
       - "8080:8080"
       - "8000:8000"
@@ -12,10 +13,15 @@ services:
       NOMIRROR: "yes"
       REST_PORT: 8000
       REST_TOKEN: ${OPENGROK_REST_TOKEN}
+      INDEXER_OPT: "-S" # scan nested repos from /opengrok/src path
+      READONLY_CONFIG_FILE: /opengrok/etc/read_only.xml
+      OPENGROK_PROJECT_GROUP_NAME: ${OPENGROK_PROJECT_GROUP_NAME}
+      JAVA_OPTS: "-Xms2g -Xmx4g"
     volumes:
       - ./opengrok/data:/opengrok/data
       - ./opengrok/src:/opengrok/src
       - ./opengrok/etc:/opengrok/etc
+      - ./opengrok/entrypoint.sh:/opengrok/entrypoint.sh:ro
   mimir-syncer:
     build: ./syncer
     container_name: mimir-syncer
@@ -27,5 +33,6 @@ services:
       - SYNC_INTERVAL=3600
       - REPOS_DIR=/opengrok/src
       - SYNC_BRANCH_PRIORITY=${SYNC_BRANCH_PRIORITY}
+      - OPENGROK_REST_TOKEN=${OPENGROK_REST_TOKEN}
     volumes:
       - ./opengrok/src:/opengrok/src

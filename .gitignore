@@ -1,3 +1,5 @@
 opengrok/data
-opengrok/etc
+opengrok/etc/*
+!opengrok/etc/read_only.xml.template
+opengrok/src
 .env

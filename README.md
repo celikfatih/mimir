@@ -29,6 +29,7 @@
 - **Automated Discovery**: Automatically finds all repositories in a GitHub Organization or Bitbucket Workspace.
 - **Smart Branch Selection**: prioritizing branches (e.g., `master` > `test` > `main`) to index the most relevant code.
 - **Auto-Reindexing**: Triggers OpenGrok indexing immediately after a sync cycle completes.
+- **Project Grouping**: Groups all repositories under a single named project group in OpenGrok UI for cleaner navigation.
 - **Provider Agnostic**: extensible design supporting GitHub and Bitbucket Cloud out of the box.
 - **Containerized**: Fully Dockerized for easy deployment and isolation.
 
@@ -85,6 +86,7 @@ Configuration is managed via environment variables in `.env` or `docker-compose.
 | `SYNC_BRANCH_PRIORITY` | Comma-separated list of priority branches | `HEAD` | No |
 | `SYNC_INTERVAL` | Sync interval in seconds | `3600` | No |
 | `OPENGROK_REST_TOKEN` | Token for securing OpenGrok API | - | No |
+| `OPENGROK_PROJECT_GROUP_NAME` | Name of the project group in OpenGrok UI (groups all repos under one entry) | - | No |
 
 ## Usage
 

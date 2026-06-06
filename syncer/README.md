@@ -20,6 +20,7 @@ Configuration is handled via environment variables:
 | `SYNC_INTERVAL` | Seconds between sync cycles | `3600` |
 | `SYNC_BRANCH_PRIORITY` | Comma-separated list of branches to prioritize | Empty (defaults to HEAD) |
 | `DRY_RUN` | If `true`, only logs commands | `false` |
+| `OPENGROK_PROJECT_GROUP_NAME` | Name of the project group in OpenGrok UI | Empty (no grouping) |
 
 ## Usage
 ### Docker Compose
